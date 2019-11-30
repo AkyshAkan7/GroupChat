@@ -28,13 +28,17 @@ class MainViewController: UIViewController {
     @IBAction func sendButtonPressed(_ sender: Any) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         
-        Firestore.firestore().collection("messages3").addDocument(data:
-            [
-                "senderId": userId,
-                "message": messageTextField.text!,
-                "date": Date().timeIntervalSince1970
-                ] as [String: Any]
-        )
+        if !messageTextField.text!.isEmpty {
+            
+            Firestore.firestore().collection("messages3").addDocument(data:
+                [
+                    "senderId": userId,
+                    "message": messageTextField.text!,
+                    "date": Date().timeIntervalSince1970
+                    ] as [String: Any]
+            )
+            
+        }
         
         messageTextField.text = ""
         
@@ -46,8 +50,9 @@ class MainViewController: UIViewController {
     
     func observeMessages() {
         
+        let ref = Firestore.firestore().collection("messages3")
         
-        Firestore.firestore().collection("messages3").addSnapshotListener { snapshot, error in
+        ref.order(by: "date", descending: false).addSnapshotListener { snapshot, error in
             
             var tempMessages = [Message]()
             

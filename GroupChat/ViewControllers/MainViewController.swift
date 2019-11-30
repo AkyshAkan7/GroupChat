@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
     @IBAction func sendButtonPressed(_ sender: Any) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         
-        Firestore.firestore().collection("messages2").addDocument(data:
+        Firestore.firestore().collection("messages3").addDocument(data:
             [
                 "senderId": userId,
                 "message": messageTextField.text!,
@@ -47,7 +47,7 @@ class MainViewController: UIViewController {
     func observeMessages() {
         
         
-        Firestore.firestore().collection("messages2").addSnapshotListener { snapshot, error in
+        Firestore.firestore().collection("messages3").addSnapshotListener { snapshot, error in
             
             var tempMessages = [Message]()
             
@@ -70,13 +70,23 @@ class MainViewController: UIViewController {
                     }
 
                     for document in snapshot!.documents {
-                        let name = document["name"] as! String
-                        let surname = document["surname"] as! String
-
-                        let message = Message(name: name, surname: surname, timestamp: convertedDate, messageText: messageText)
-                        tempMessages.append(message)
+                        
+                        if senderId == Auth.auth().currentUser?.uid {
+                            let name = "I"
+                            let surname = ""
+                            
+                            let message = Message(name: name, surname: surname, timestamp: convertedDate, messageText: messageText)
+                            tempMessages.append(message)
+                        } else {
+                            let name = document["name"] as! String
+                            let surname = document["surname"] as! String
+                            
+                            let message = Message(name: name, surname: surname, timestamp: convertedDate, messageText: messageText)
+                            tempMessages.append(message)
+                        }
+                        
                     }
-
+                    
                     self.messages = tempMessages
                     self.tableView.reloadData()
 

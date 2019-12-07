@@ -249,6 +249,7 @@
                                     <constraint firstAttribute="height" constant="33" id="5Ra-yY-CUH"/>
                                     <constraint firstAttribute="width" constant="45" id="aZV-NS-PUD"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <state key="normal" title="SEND">
                                     <color key="titleColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>

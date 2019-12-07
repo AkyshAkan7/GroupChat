@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+
 struct Message {
     var name: String
     var surname: String
